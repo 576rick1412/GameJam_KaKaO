@@ -8,9 +8,11 @@ public class All_In_One : MonoBehaviour
     public static All_In_One ALO;
 
     // 원활한 사용을 위해 모래 / 체크 오브젝트의 레이케스트 타겟을 꺼놔야함
-    [SerializeField] float DistanceRange = 0; // 드롭 좌표 허용 범위
+    [Header("드롭 좌표 허용 범위")][SerializeField] float DistanceRange = 0; // 드롭 좌표 허용 범위
 
-    [SerializeField] int Check_Num = 0; //성공한 수
+    int Check_Num = 0; //성공한 수
+
+    [Header("오브젝트")]
     [SerializeField] GameObject[] Image_Objects; //이동오브제
     [SerializeField] GameObject[] Set_Objects; // 빈칸
     [SerializeField] Vector3[] target_POS;
