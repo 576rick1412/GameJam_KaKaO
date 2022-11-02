@@ -14,7 +14,7 @@ public class All_In_One : MonoBehaviour
     [SerializeField] GameObject[] Set_Objects; // 빈칸
     // [SerializeField] GameObject[] SetImage; // 빈칸에 놓으면 나오는 이미지
     [SerializeField] int Check_Num = 0; //성공한 수
-    [SerializeField] Vector2[] target_POS;
+    [SerializeField] Vector3[] target_POS;
 
     RectTransform rect;
 
@@ -40,7 +40,7 @@ public class All_In_One : MonoBehaviour
 
     public void Drag_Image(int i)
     {
-        var screenPoint = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        var screenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 100.0f);
         Image_Objects[i].transform.position = Camera.main.ScreenToWorldPoint(screenPoint);
     }
     public bool Drop_Image(int i)
@@ -49,7 +49,7 @@ public class All_In_One : MonoBehaviour
         float Distance = Vector3.Distance(Image_Objects[i].transform.position, Set_Objects[i].transform.position);
         if (Distance < DistanceRange)
         {
-            if (Image_Objects.Length <= Check_Num)
+            if (Image_Objects.Length <= Check_Num-1)
             {
                 // 마지막 조각을 놓았을 때
                 // 대충 이쯤에 클리어 창이 뜨도록 추가
@@ -60,8 +60,7 @@ public class All_In_One : MonoBehaviour
             //Destroy(Image_Objects[i]);
 
             Image_Objects[i].transform.position = Set_Objects[i].transform.position;
-
-            Destroy(Set_Objects[i]); return true;
+            return true;
         }
         Image_Objects[i].transform.position = target_POS[i];
         return false;
