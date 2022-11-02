@@ -22,8 +22,8 @@ public class Ingame_Object : MonoBehaviour, IDragHandler,IDropHandler,IBeginDrag
         Image = GetComponent<Image>();
         rect = GetComponent<RectTransform>();
 
-        UP_Canvas =     GameObject.FindWithTag("UP_Canvas");
-        Image_Hub =   GameObject.FindWithTag("Image_Hub");
+        UP_Canvas = GameObject.FindWithTag("UP_Canvas");
+        Image_Hub = GameObject.FindWithTag("Image_Hub");
     }
 
     private void Update() { if (AllowDrag) Image.raycastTarget = false; }  // 드래그중 다른 오브젝트가 눌리지 않도록
