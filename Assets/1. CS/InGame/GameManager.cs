@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
     [Header("페이드 인 아웃")]
     public Image Panel; // 검은색 화면을 꽉 채우는 이미지 / 필수
     public float F_time = 0.2f; // 페이드 시간
-    float FM_time = 0f; // 건들지마!!
     void Awake()
     {
         instance = this;
@@ -22,12 +21,12 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public void Fade()
+    public void Fade(bool on)
     {
-        StartCoroutine(FadeEffect());
+        StartCoroutine(FadeEffect(on));
     }
     public void Fade(GameObject CurObj, GameObject NextObj)
     {
@@ -40,39 +39,44 @@ public class GameManager : MonoBehaviour
 
     // ===========================================================================
 
-    IEnumerator FadeEffect()
+    IEnumerator FadeEffect(bool on)
     {
-        Panel.gameObject.SetActive(true);
-        FM_time = 0f;
+        float FM_time = 0f;
         Color alpha = Panel.color;
 
-        while (alpha.a < 1f)
+        if (on)
         {
-            FM_time += Time.deltaTime / F_time;
-            alpha.a = Mathf.Lerp(0, 1, FM_time);
-            Panel.color = alpha;
+            Panel.gameObject.SetActive(true);
+            while (FM_time < 1f)
+            {
+                FM_time += Time.deltaTime / F_time;
+                alpha.a = Mathf.Lerp(0, 1, FM_time);
+                Panel.color = alpha;
 
+                yield return null;
+            }
+            yield return null;
+        }
+        else
+        {
+            while (FM_time < 1f)
+            {
+                FM_time += Time.deltaTime / F_time;
+                alpha.a = Mathf.Lerp(1, 0, FM_time);
+                Panel.color = alpha;
+
+                yield return null;
+            }
+            Panel.gameObject.SetActive(false);
             yield return null;
         }
 
-        FM_time = 0f;
-        yield return null;
-
-
-        while (alpha.a > 0f)
-        {
-            FM_time += Time.deltaTime / F_time;
-            alpha.a = Mathf.Lerp(1, 0, FM_time);
-            Panel.color = alpha;
-            yield return null;
-        }
-        Panel.gameObject.SetActive(false);
-        yield return null;
+      
     }
     IEnumerator FadeEffect(GameObject CurObj, GameObject NextObj)
     {
         Panel.gameObject.SetActive(true);
-        FM_time = 0f;
+        float FM_time = 0f;
         Color alpha = Panel.color;
 
         while (alpha.a < 1f)
@@ -103,10 +107,9 @@ public class GameManager : MonoBehaviour
     IEnumerator FadeEffect(AsyncOperation op)
     {
         Panel.gameObject.SetActive(true);
-        FM_time = 0f;
+        float FM_time = 0f;
         Color alpha = Panel.color;
-
-        while (alpha.a < 1f)
+        while (FM_time < 1f)
         {
             FM_time += Time.deltaTime / F_time;
             alpha.a = Mathf.Lerp(0, 1, FM_time);

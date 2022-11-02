@@ -6,6 +6,7 @@ TagManager:
   tags:
   - UP_Canvas
   - Image_Hub
+  - Hammer
   layers:
   - Default
   - TransparentFX
