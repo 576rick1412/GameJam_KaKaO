@@ -15,7 +15,15 @@ public class GameManager : MonoBehaviour
     public float F_time = 0.2f; // 페이드 시간
     void Awake()
     {
-        instance = this;
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     // Update is called once per frame

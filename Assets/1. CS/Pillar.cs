@@ -9,7 +9,6 @@ public class Pillar : MonoBehaviour
         if (collision.gameObject.CompareTag("Hammer"))
         {
             GetComponent<Rigidbody>().AddForce(Vector3.right * 10000);
-            Debug.Log("?");
         }
     }
 }
