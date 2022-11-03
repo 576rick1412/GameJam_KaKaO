@@ -35,7 +35,7 @@ public class All_In_One : MonoBehaviour
     }
     void Update()
     {
-        CurTime += Time.deltaTime * 15;
+        CurTime += Time.deltaTime * 1;
         if((int)CurTime % 60 >= 10) { Time_Text.text = ((int)CurTime / 60).ToString() + " : " + ((int)CurTime % 60).ToString(); }
         else Time_Text.text = ((int)CurTime / 60).ToString() + " : 0" + ((int)CurTime % 60).ToString();
 
