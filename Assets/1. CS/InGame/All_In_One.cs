@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using TMPro;
 using UnityEngine.SceneManagement;
 public class All_In_One : MonoBehaviour
 {
@@ -10,17 +11,21 @@ public class All_In_One : MonoBehaviour
    // 원활한 사용을 위해 모래 / 체크 오브젝트의 레이케스트 타겟을 꺼놔야함
    [Header("드롭 좌표 허용 범위")][SerializeField] float DistanceRange = 0; // 드롭 좌표 허용 범위
 
+    [Header("시간 표시")] [SerializeField] TextMeshProUGUI Time_Text;
+    private float CurTime;
+
     int Check_Num = 0; //성공한 수
 
     [Header("오브젝트")]
     [SerializeField] GameObject[] Image_Objects; //이동오브제
     [SerializeField] GameObject[] Set_Objects; // 빈칸
-    [SerializeField] Vector3[] target_POS;
+    [HideInInspector] public Vector3[] target_POS;
 
     void Awake()
     {
         ALO = this;
 
+        CurTime = 0f;
         Check_Num = 0;
         for (int i = 0; i < Image_Objects.Length; i++)
         {
@@ -30,9 +35,11 @@ public class All_In_One : MonoBehaviour
     }
     void Update()
     {
+        CurTime += Time.deltaTime * 15;
+        if((int)CurTime % 60 >= 10) { Time_Text.text = ((int)CurTime / 60).ToString() + " : " + ((int)CurTime % 60).ToString(); }
+        else Time_Text.text = ((int)CurTime / 60).ToString() + " : 0" + ((int)CurTime % 60).ToString();
 
     }
-
     public void Drag_Image(int i)
     {
         var screenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 100.0f);
