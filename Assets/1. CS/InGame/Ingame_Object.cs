@@ -26,7 +26,7 @@ public class Ingame_Object : MonoBehaviour, IDragHandler,IDropHandler,IBeginDrag
         Image_Hub = GameObject.FindWithTag("Image_Hub");
     }
 
-    private void Update() { if (AllowDrag) Image.raycastTarget = false; }  // 드래그중 다른 오브젝트가 눌리지 않도록
+    private void Update() { if (AllowDrag) { Image.raycastTarget = false; rect.SetParent(UP_Canvas.transform); } }  // 드래그중 다른 오브젝트가 눌리지 않도록
 
     public void OnDrag() { if (AllowDrag) return; All_In_One.ALO.Drag_Image(object_Number); }
     public void OnDrop() { if (AllowDrag) return; AllowDrag = All_In_One.ALO.Drop_Image(object_Number); }

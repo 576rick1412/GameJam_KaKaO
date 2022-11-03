@@ -15,6 +15,8 @@ public class All_In_One : MonoBehaviour
     private float CurTime;
 
     int Check_Num = 0; //성공한 수
+    [SerializeField] TextMeshProUGUI Piece_Amount;
+    bool Game_Claer;
 
     [Header("오브젝트")]
     [SerializeField] GameObject[] Image_Objects; //이동오브제
@@ -25,6 +27,7 @@ public class All_In_One : MonoBehaviour
     {
         ALO = this;
 
+        Game_Claer = false;
         CurTime = 0f;
         Check_Num = 0;
         for (int i = 0; i < Image_Objects.Length; i++)
@@ -35,13 +38,17 @@ public class All_In_One : MonoBehaviour
     }
     void Update()
     {
-        CurTime += Time.deltaTime * 1;
+        if(!Game_Claer) CurTime += Time.deltaTime * 1;
+
         if((int)CurTime % 60 >= 10) { Time_Text.text = ((int)CurTime / 60).ToString() + " : " + ((int)CurTime % 60).ToString(); }
         else Time_Text.text = ((int)CurTime / 60).ToString() + " : 0" + ((int)CurTime % 60).ToString();
+
+        Piece_Amount.text = (Image_Objects.Length - Check_Num).ToString();
 
     }
     public void Drag_Image(int i)
     {
+        
         var screenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 100.0f);
         Image_Objects[i].transform.position = Camera.main.ScreenToWorldPoint(screenPoint);
     }
@@ -55,6 +62,7 @@ public class All_In_One : MonoBehaviour
             {
                 // 마지막 조각을 놓았을 때
                 // 대충 이쯤에 클리어 창이 뜨도록 추가
+                Game_Claer = true;
                 Debug.Log("클리어");
                 Sound_Manager.SM.Clear();
             }
@@ -65,7 +73,7 @@ public class All_In_One : MonoBehaviour
             return true;
         }
         Sound_Manager.SM.Wrong();
-        Image_Objects[i].transform.position = target_POS[i];
+        //Image_Objects[i].transform.position = target_POS[i];
         return false;
     }
 }
