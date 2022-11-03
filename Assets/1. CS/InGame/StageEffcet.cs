@@ -12,12 +12,10 @@ public class StageEffcet : MonoBehaviour
     [SerializeField] private GameObject hamerObjcet;
 
     [SerializeField] private int maxCount;
-    private int clearCount;
     private bool isClear;
     void Start()
     {
         StartCoroutine(FadeInOut());
-        clearCount = GameManager.instance.clearIdx;
         SpawnObejct();
     }
     private void Update()
@@ -32,21 +30,21 @@ public class StageEffcet : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider.gameObject == spawnObject[clearCount])
+                if (hit.collider.gameObject == spawnObject[GameManager.instance.clearIdx])
                     SceneManager.LoadScene("InGame");
             }
         }
     }
     void SpawnObejct()
     {
-        for (int i = clearCount; i < maxCount; i++)
+        for (int i = GameManager.instance.clearIdx; i < maxCount; i++)
         {
             spawnObject[i].SetActive(true);
         }
         if (GameManager.instance.isClear == true)
         {
             StartCoroutine(HamerSwing());
-            if(clearCount++ >= 4)
+            if (GameManager.instance.clearIdx++ >= 4)
             {
                 isClear = true;
             }
