@@ -10,6 +10,7 @@ public class StageEffcet : MonoBehaviour
 
     [SerializeField] private GameObject[] spawnObject;
     [SerializeField] private GameObject hamerObjcet;
+    [SerializeField] private GameObject endhamerObjcet;
 
     [SerializeField] private int maxCount;
     private bool isClear;
@@ -55,9 +56,33 @@ public class StageEffcet : MonoBehaviour
         yield return new WaitForSeconds(1f);
         GameManager.instance.Fade(false);
     }
+    private IEnumerator CameraShake(float Range,float time)
+    {
+        Vector3 originPos = Camera.main.transform.position;
+        float timer = 1;
+        while(timer > 0)
+        {
+            timer -= Time.deltaTime / time;
+            Camera.main.transform.position = Random.insideUnitSphere * Range + originPos;
+            yield return null;
+        }
+        Camera.main.transform.position = originPos;
+        yield return null;
+    }
     private IEnumerator HamerSwing()
     {
         yield return new WaitForSeconds(2f);
         hamerObjcet.transform.DORotate(new Vector3(0, 180, 0), 1f);
+        yield return new WaitForSeconds(0.6f);
+        StartCoroutine(CameraShake(0.1f, 0.1f));
+        if (GameManager.instance.clearIdx >= 4)
+        {
+            yield return new WaitForSeconds(2f);
+            endhamerObjcet.transform.DORotate(new Vector3(90, 0, 0),0.5f);
+            yield return new WaitForSeconds(0.5f);
+            StartCoroutine(CameraShake(0.3f, 0.8f));
+            yield return new WaitForSeconds(1.5f);
+            endhamerObjcet.transform.DORotate(new Vector3(0, 0, 0), 1f);
+        }
     }
 }
