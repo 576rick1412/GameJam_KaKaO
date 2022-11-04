@@ -741,7 +741,7 @@ MonoBehaviour:
   - {fileID: 919132147666049281}
   - {fileID: 919132149038727507}
   - {fileID: 919132148625820182}
-  - {fileID: 0}
+  - {fileID: 435670197}
   - {fileID: 435670197}
   hamerObjcet: {fileID: 1702925973}
   maxCount: 6
@@ -1318,7 +1318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05af453b7f5bb5b409e5974ae30ab359, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isClear: 1
+  isClear: 0
   clearIdx: 0
   Panel: {fileID: 399216440}
   F_time: 1

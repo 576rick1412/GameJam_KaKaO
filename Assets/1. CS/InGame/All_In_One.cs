@@ -7,9 +7,12 @@ using UnityEngine.SceneManagement;
 public class All_In_One : MonoBehaviour
 {
     public static All_In_One ALO;
+    GameManager gm = GameManager.instance;
 
-   // 원활한 사용을 위해 모래 / 체크 오브젝트의 레이케스트 타겟을 꺼놔야함
-   [Header("드롭 좌표 허용 범위")][SerializeField] float DistanceRange = 0; // 드롭 좌표 허용 범위
+    [Header("클리어 오브젝트")][SerializeField] GameObject ClearObbj;
+
+    // 원활한 사용을 위해 모래 / 체크 오브젝트의 레이케스트 타겟을 꺼놔야함
+    [Header("드롭 좌표 허용 범위")][SerializeField] float DistanceRange = 0; // 드롭 좌표 허용 범위
 
     [Header("시간 표시")] [SerializeField] TextMeshProUGUI Time_Text;
     private float CurTime;
@@ -21,15 +24,18 @@ public class All_In_One : MonoBehaviour
     [Header("오브젝트")]
     [SerializeField] GameObject[] Image_Objects; //이동오브제
     [SerializeField] GameObject[] Set_Objects; // 빈칸
-    [HideInInspector] public Vector3[] target_POS;
+    public Vector3[] target_POS;
+
 
     void Awake()
     {
         ALO = this;
 
+        ClearObbj.SetActive(false);
         Game_Claer = false;
         CurTime = 0f;
         Check_Num = 0;
+
         for (int i = 0; i < Image_Objects.Length; i++)
         {
             Array.Resize(ref target_POS, target_POS.Length + 1);
@@ -54,7 +60,6 @@ public class All_In_One : MonoBehaviour
     }
     public bool Drop_Image(int i)
     {
-        // 이동오브제(GameObject)와 빈칸좌표(target)의 OBJ_order[n]번째와의 거리가 Null_Num보다 작다면 true 멀다면 false
         float Distance = Vector3.Distance(Image_Objects[i].transform.position, Set_Objects[i].transform.position);
         if (Distance < DistanceRange)
         {
@@ -62,7 +67,10 @@ public class All_In_One : MonoBehaviour
             {
                 // 마지막 조각을 놓았을 때
                 // 대충 이쯤에 클리어 창이 뜨도록 추가
+                ClearObbj.SetActive(true);
+                gm.isClear = true;
                 Game_Claer = true;
+                Invoke("scenemove", 4f);
                 Debug.Log("클리어");
                 Sound_Manager.SM.Clear();
             }
@@ -73,7 +81,10 @@ public class All_In_One : MonoBehaviour
             return true;
         }
         Sound_Manager.SM.Wrong();
-        //Image_Objects[i].transform.position = target_POS[i];
         return false;
+    }
+    void scenemove()
+    {
+        SceneManager.LoadScene("Title");
     }
 }
