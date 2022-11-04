@@ -70,7 +70,7 @@ public class All_In_One : MonoBehaviour
                 ClearObbj.SetActive(true);
                 gm.isClear = true;
                 Game_Claer = true;
-                Invoke("scenemove", 4f);
+                StartCoroutine("scenemove");
                 Debug.Log("Å¬¸®¾î");
                 Sound_Manager.SM.Clear();
             }
@@ -83,8 +83,11 @@ public class All_In_One : MonoBehaviour
         Sound_Manager.SM.Wrong();
         return false;
     }
-    void scenemove()
+    IEnumerator scenemove()
     {
+        yield return new WaitForSeconds(4f);
+        GameManager.instance.Fade(true);
+        yield return new WaitForSeconds(1f);
         SceneManager.LoadScene("Title");
     }
 }
