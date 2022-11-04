@@ -72,7 +72,7 @@ public class StageEffcet : MonoBehaviour
     private IEnumerator HamerSwing()
     {
         yield return new WaitForSeconds(2f);
-        hamerObjcet.transform.DORotate(new Vector3(0, 180, 0), 1f);
+        hamerObjcet.transform.DORotate(new Vector3(0, 180, 0), 1.5f);
         yield return new WaitForSeconds(0.6f);
         StartCoroutine(CameraShake(0.1f, 0.1f));
         if (GameManager.instance.clearIdx >= 4)
